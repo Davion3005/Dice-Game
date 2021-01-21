@@ -26,8 +26,8 @@ export default {
         return {
             isPlaying: false,
             isPlayingPlayer: PLAYER.player1,
-            playerScores: [12, 20],
-            currentScore: 11,
+            playerScores: [0, 0],
+            currentScore: 0,
             isOpenPopup: false,
             diceFaces: [1,1],
         }
@@ -54,8 +54,9 @@ export default {
 
                 //Check if any dice is 1
                 if (dice1Value === 1 || dice2Value === 1) {
+                     let playerName = this.isPlayingPlayer + 1;
                     setTimeout(function () {
-                        alert('Change turn!!!')
+                        alert('Player '  + playerName + ' has been lost turn!');
                     }, 1000);
 
                     this.changeTurn();
