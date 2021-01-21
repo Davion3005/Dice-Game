@@ -1,7 +1,7 @@
 <template lang="pug">
     div.wrapper-dices
         #dice-1.dice
-            .spinner.dice-3
+            .spinner(:class="'dice-' + diceFaces[0]")
                 .face1 1
                 .face2 2
                 .face3 3
@@ -9,7 +9,7 @@
                 .face5 5
                 .face6 6
         #dice-2.dice
-            .spinner.dice-6
+            .spinner(:class="'dice-' + diceFaces[1]")
                 .face1 1
                 .face2 2
                 .face3 3
@@ -21,6 +21,12 @@
 <script>
     export default {
         name: "dices",
+        props: {
+            diceFaces : {
+                type: Array,
+                default: () => [1, 1],
+            }
+        },
         data() {
             return {
 

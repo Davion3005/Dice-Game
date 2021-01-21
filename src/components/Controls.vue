@@ -1,6 +1,6 @@
 <template lang="pug">
     div.wrapper-controls
-        button.control.btn-new
+        button.control.btn-new( @click="startNewGame")
             i.ion-ios-plus-outline
             | New game
         button.control.btn-roll
@@ -21,7 +21,9 @@
             }
         },
         methods: {
-
+            startNewGame() {
+                this.$emit('newGame')
+            }
         },
     }
 </script>

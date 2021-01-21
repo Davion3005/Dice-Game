@@ -2,8 +2,9 @@
     #app
         .wrapper.clearfix
             players(:playerScores="playerScores" :currentScore="currentScore" :isPlayingPlayer="isPlayingPlayer")
-            controls
-            dices
+            controls(@newGame="handleNewGame")
+            dices(:diceFaces="diceFaces")
+            game-rule(:isOpenPopup="isOpenPopup" @agreeRule="handleAgreeRule")
 </template>
 
 <script>
@@ -11,10 +12,12 @@ import Players from "@/components/Players";
 import Controls from "@/components/Controls";
 import Dices from "@/components/Dices";
 import {PLAYER} from "@/app/config/others";
+import GameRule from "@/components/GameRule";
 
 export default {
     name: 'App',
     components: {
+        GameRule,
         Dices,
         Controls,
         Players,
@@ -25,6 +28,21 @@ export default {
             isPlayingPlayer: PLAYER.player1,
             playerScores: [12, 20],
             currentScore: 11,
+            isOpenPopup: false,
+            diceFaces: [1,1],
+        }
+    },
+    methods: {
+        handleNewGame() {
+            this.isOpenPopup = true
+        },
+        handleAgreeRule() {
+            this.isOpenPopup = false;
+            this.isPlaying = true;
+            this.isPlayingPlayer = PLAYER.player1;
+            this.playerScores = [0, 0];
+            this.currentScore = 0;
+            this.diceFaces = [1, 1];
         }
     }
 }
