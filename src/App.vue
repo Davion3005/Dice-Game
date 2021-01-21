@@ -1,28 +1,218 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+<template lang="pug">
+    .wrapper.clearfix
+        .player-panel.winner
+            .player-name Winner
+            .player-score 43
+            .player-current-box
+                .player-current-label Current
+                .player-current-score 11
+        .player-panel
+            .player-name Player 2
+            .player-score 72
+            .player-current-box
+                .player-current-label Current
+                .player-current-score 0
+        button.control.btn-new
+            i.ion-ios-plus-outline
+            | New game
+        button.control.btn-roll
+            i.ion-ios-loop
+            | Roll dice
+        button.control.btn-hold
+            i.ion-ios-download-outline
+            | Hold
+        input.final-score(type='number' placeholder='Final score')
+        #dice-1.dice
+            .spinner.dice-3
+                .face1 1
+                .face2 2
+                .face3 3
+                .face4 4
+                .face5 5
+                .face6 6
+        #dice-2.dice
+            .spinner.dice-6
+                .face1 1
+                .face2 2
+                .face3 3
+                .face4 4
+                .face5 5
+                .face6 6
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+
+    }
+
+    .clearfix::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    body {
+        background-image: linear-gradient(rgba(62, 20, 20, 0.4), rgba(62, 20, 20, 0.4)), url(back.jpg);
+        background-size: cover;
+        background-position: center;
+        font-family: Lato;
+        font-weight: 300;
+        position: relative;
+        height: 100vh;
+        color: #555;
+    }
+
+    .wrapper {
+        width: 1000px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+    }
+
+
+
+
+    /**********************************************
+    *** PLAYERS
+    **********************************************/
+    .player-panel {
+        width: 50%;
+        float: left;
+        height: 600px;
+        padding: 100px;
+        transition: all .3s ease;
+        background-color: #fff;
+    }
+    .player-name {
+        font-size: 40px;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 100;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        position: relative;
+    }
+
+    .player-score {
+        text-align: center;
+        font-size: 80px;
+        font-weight: 100;
+        color: #42b983;
+        margin-bottom: 130px;
+    }
+
+    .active { background-color: #f7f7f7; }
+    .active .player-name { font-weight: 300; }
+
+    .active .player-name::after {
+        content: "\2022";
+        font-size: 47px;
+        position: absolute;
+        color: #42b983;
+        top: -7px;
+        right: 10px;
+
+    }
+
+    .player-current-box {
+        background-color: #42b983;
+        color: #fff;
+        width: 40%;
+        margin: 0 auto;
+        padding: 12px;
+        text-align: center;
+    }
+
+    .player-current-label {
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        font-size: 12px;
+        color: #222;
+    }
+
+    .player-current-score {
+        font-size: 30px;
+    }
+
+    .winner { background-color: #f7f7f7; }
+    .winner .player-name { font-weight: 300; color: #42b983; }
+
+
+    /**********************************************
+    *** Control
+    **********************************************/
+    .control {
+        position: absolute;
+        width: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #555;
+        background: none;
+        border: none;
+        font-family: Lato;
+        font-size: 20px;
+        text-transform: uppercase;
+        cursor: pointer;
+        font-weight: 300;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    .control.disable {
+        pointer-events: none;
+    }
+
+    .control:hover { font-weight: 600; }
+    .control:hover i { margin-right: 20px; }
+
+    .control:focus {
+        outline: none;
+    }
+
+    .control i {
+        color: #42b983;
+        display: inline-block;
+        margin-right: 15px;
+        font-size: 32px;
+        line-height: 1;
+        vertical-align: text-top;
+        margin-top: -4px;
+        transition: margin 0.3s;
+    }
+
+    .btn-new { top: 45px;}
+    .btn-roll { top: 403px;}
+    .btn-hold { top: 467px;}
+
+    .final-score {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 520px;
+        color: #555;
+        font-size: 18px;
+        font-family: 'Lato';
+        text-align: center;
+        padding: 10px;
+        width: 160px;
+        text-transform: uppercase;
+    }
+
+    .final-score:focus { outline: none; }
 </style>
