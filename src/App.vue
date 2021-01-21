@@ -1,7 +1,7 @@
 <template lang="pug">
     #app
         .wrapper.clearfix
-            players
+            players(:playerScores="playerScores" :currentScore="currentScore" :isPlayingPlayer="isPlayingPlayer")
             controls
             dices
 </template>
@@ -10,13 +10,23 @@
 import Players from "@/components/Players";
 import Controls from "@/components/Controls";
 import Dices from "@/components/Dices";
+import {PLAYER} from "@/app/config/others";
+
 export default {
-  name: 'App',
-  components: {
-      Dices,
-      Controls,
-      Players,
-  }
+    name: 'App',
+    components: {
+        Dices,
+        Controls,
+        Players,
+    },
+    data() {
+        return {
+            isPlaying: false,
+            isPlayingPlayer: PLAYER.player1,
+            playerScores: [12, 20],
+            currentScore: 11,
+        }
+    }
 }
 </script>
 

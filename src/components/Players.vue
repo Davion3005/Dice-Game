@@ -1,24 +1,42 @@
 <template lang="pug">
     div.wrapper-players
-        .player-panel.active
+        .player-panel(:class="{ active: isPlayingPlayer === player1}")
             .player-name Player 1
-            .player-score 43
+            .player-score {{ playerScores[0] }}
             .player-current-box
                 .player-current-label Current
-                .player-current-score 11
-        .player-panel
+                .player-current-score {{ isPlayingPlayer === player1 ? currentScore : 0}}
+        .player-panel(:class="{ active: isPlayingPlayer === player2}")
             .player-name Player 2
-            .player-score 72
+            .player-score {{ playerScores[1] }}
             .player-current-box
                 .player-current-label Current
-                .player-current-score 0
+                .player-current-score {{ isPlayingPlayer === player2 ? currentScore : 0 }}
 </template>
 
 <script>
+import {PLAYER} from "@/app/config/others";
 export default {
     name: "players",
+    props: {
+        playerScores: {
+            type: Array,
+            default: () => [0, 0]
+        },
+        currentScore: {
+            type: Number,
+            default: 0,
+        },
+        isPlayingPlayer: {
+            type: Number,
+            default: 0,
+        },
+    },
     data() {
-
+        return {
+            player1: PLAYER.player1,
+            player2: PLAYER.player2,
+        }
     },
     methods: {
 
