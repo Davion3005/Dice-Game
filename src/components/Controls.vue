@@ -3,7 +3,7 @@
         button.control.btn-new( @click="startNewGame")
             i.ion-ios-plus-outline
             | New game
-        button.control.btn-roll
+        button.control.btn-roll(@click="rollDices")
             i.ion-ios-loop
             | Roll dice
         button.control.btn-hold
@@ -23,6 +23,9 @@
         methods: {
             startNewGame() {
                 this.$emit('newGame')
+            },
+            rollDices() {
+                this.$emit('rollDices')
             }
         },
     }

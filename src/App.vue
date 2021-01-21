@@ -2,7 +2,7 @@
     #app
         .wrapper.clearfix
             players(:playerScores="playerScores" :currentScore="currentScore" :isPlayingPlayer="isPlayingPlayer")
-            controls(@newGame="handleNewGame")
+            controls(@newGame="handleNewGame" @rollDices="handleRollDices")
             dices(:diceFaces="diceFaces")
             game-rule(:isOpenPopup="isOpenPopup" @agreeRule="handleAgreeRule")
 </template>
@@ -43,7 +43,33 @@ export default {
             this.playerScores = [0, 0];
             this.currentScore = 0;
             this.diceFaces = [1, 1];
-        }
+        },
+        handleRollDices() {
+            //Check whether already click "NewGame button"
+            if (this.isPlaying) {
+                //Roll dices
+                let dice1Value = Math.ceil(Math.random() * 6);
+                let dice2Value = Math.ceil(Math.random() * 6);
+                this.diceFaces = [dice1Value, dice2Value];
+
+                //Check if any dice is 1
+                if (dice1Value === 1 || dice2Value === 1) {
+                    setTimeout(function () {
+                        alert('Change turn!!!')
+                    }, 1000);
+
+                    this.changeTurn();
+                } else {
+                    this.currentScore = this.currentScore + dice1Value + dice2Value;
+                }
+
+            } else {
+                alert('Please click button New Game')
+            }
+        },
+        changeTurn() {
+            this.isPlayingPlayer = this.isPlayingPlayer === PLAYER.player1 ? PLAYER.player2 : PLAYER.player1;
+        },
     }
 }
 </script>
