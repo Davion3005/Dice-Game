@@ -2,7 +2,7 @@
     #app
         .wrapper.clearfix
             players(:playerScores="playerScores" :currentScore="currentScore" :isPlayingPlayer="isPlayingPlayer")
-            controls(@newGame="handleNewGame" @rollDices="handleRollDices")
+            controls(@newGame="handleNewGame" @rollDices="handleRollDices" @holdScore="handleHoldScore")
             dices(:diceFaces="diceFaces")
             game-rule(:isOpenPopup="isOpenPopup" @agreeRule="handleAgreeRule")
 </template>
@@ -57,8 +57,8 @@ export default {
                      let playerName = this.isPlayingPlayer + 1;
                     setTimeout(function () {
                         alert('Player '  + playerName + ' has been lost turn!');
-                    }, 1000);
-
+                    }, 100);
+                    console.log('Should not stop here in first roll')
                     this.changeTurn();
                 } else {
                     this.currentScore = this.currentScore + dice1Value + dice2Value;
@@ -70,7 +70,22 @@ export default {
         },
         changeTurn() {
             this.isPlayingPlayer = this.isPlayingPlayer === PLAYER.player1 ? PLAYER.player2 : PLAYER.player1;
+            this.currentScore = 0;
+            this.diceFaces = [1, 1];
         },
+        handleHoldScore() {
+            if (this.isPlaying) {
+                let {playerScores, isPlayingPlayer, currentScore} = this;
+
+                let clonePlayerScores = [...playerScores];
+                clonePlayerScores[isPlayingPlayer] = clonePlayerScores[isPlayingPlayer] + currentScore;
+                this.playerScores = [...clonePlayerScores];
+
+                this.changeTurn();
+            } else {
+                alert('Please click button New Game')
+            }
+        }
     }
 }
 </script>

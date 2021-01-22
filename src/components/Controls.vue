@@ -6,7 +6,7 @@
         button.control.btn-roll(@click="rollDices")
             i.ion-ios-loop
             | Roll dice
-        button.control.btn-hold
+        button.control.btn-hold(@click="$emit('holdScore')")
             i.ion-ios-download-outline
             | Hold
         input.final-score(type='number' placeholder='Final score')
