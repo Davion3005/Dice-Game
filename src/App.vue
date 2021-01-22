@@ -2,7 +2,12 @@
     #app
         .wrapper.clearfix
             players(:playerScores="playerScores" :currentScore="currentScore" :isPlayingPlayer="isPlayingPlayer")
-            controls(@newGame="handleNewGame" @rollDices="handleRollDices" @holdScore="handleHoldScore")
+            controls(@newGame="handleNewGame"
+                @rollDices="handleRollDices"
+                @holdScore="handleHoldScore"
+                @changeFinalScore="handleChangeFinalScore"
+                :finalScore="finalScore"
+                :isPlaying="isPlaying")
             dices(:diceFaces="diceFaces")
             game-rule(:isOpenPopup="isOpenPopup" @agreeRule="handleAgreeRule")
 </template>
@@ -30,6 +35,7 @@ export default {
             currentScore: 0,
             isOpenPopup: false,
             diceFaces: [1,1],
+            finalScore: 100,
         }
     },
     methods: {
@@ -54,10 +60,10 @@ export default {
 
                 //Check if any dice is 1
                 if (dice1Value === 1 || dice2Value === 1) {
-                     let playerName = this.isPlayingPlayer + 1;
+                    let playerName = this.isPlayingPlayer + 1;
                     setTimeout(function () {
                         alert('Player '  + playerName + ' has been lost turn!');
-                    }, 100);
+                    }, 50);
                     console.log('Should not stop here in first roll')
                     this.changeTurn();
                 } else {
@@ -71,21 +77,27 @@ export default {
         changeTurn() {
             this.isPlayingPlayer = this.isPlayingPlayer === PLAYER.player1 ? PLAYER.player2 : PLAYER.player1;
             this.currentScore = 0;
-            this.diceFaces = [1, 1];
+
         },
         handleHoldScore() {
             if (this.isPlaying) {
-                let {playerScores, isPlayingPlayer, currentScore} = this;
+                if (this.currentScore >= 2) {
+                    let {playerScores, isPlayingPlayer, currentScore} = this;
 
-                let clonePlayerScores = [...playerScores];
-                clonePlayerScores[isPlayingPlayer] = clonePlayerScores[isPlayingPlayer] + currentScore;
-                this.playerScores = [...clonePlayerScores];
-
-                this.changeTurn();
+                    let clonePlayerScores = [...playerScores];
+                    clonePlayerScores[isPlayingPlayer] = clonePlayerScores[isPlayingPlayer] + currentScore;
+                    this.playerScores = [...clonePlayerScores];
+                    this.changeTurn();
+                } else {
+                    alert('Please roll dice at least 1 time');
+                }
             } else {
-                alert('Please click button New Game')
+                alert('Please click button New Game');
             }
-        }
+        },
+        handleChangeFinalScore(e) {
+            this.finalScore = isNaN(parseInt(e.target.value)) ? "" : parseInt(e.target.value);
+        },
     }
 }
 </script>

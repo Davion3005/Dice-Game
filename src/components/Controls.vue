@@ -9,15 +9,29 @@
         button.control.btn-hold(@click="$emit('holdScore')")
             i.ion-ios-download-outline
             | Hold
-        input.final-score(type='number' placeholder='Final score')
+        input.final-score(type='number'
+            placeholder='Final score'
+            :value="finalScore"
+            :disabled="isPlaying"
+            @input="$emit('changeFinalScore', $event)")
 </template>
 
 <script>
     export default {
         name: "controls",
+        props: {
+            finalScore: {
+                type: [Number, String],
+                default: 0,
+            },
+            isPlaying: {
+                type: Boolean,
+                default: false,
+            }
+        },
         data() {
             return {
-
+                demoScore: this.finalScore.toString(),
             }
         },
         methods: {
@@ -26,7 +40,7 @@
             },
             rollDices() {
                 this.$emit('rollDices')
-            }
+            },
         },
     }
 </script>
