@@ -1,13 +1,13 @@
 <template lang="pug">
     div.wrapper-players
-        .player-panel(:class="{ active: isPlayingPlayer === player1}")
-            .player-name Player 1
+        .player-panel(:class="getPlayerClass(0)")
+            .player-name {{ getPlayerName(0) }}
             .player-score {{ playerScores[0] }}
             .player-current-box
                 .player-current-label Current
                 .player-current-score {{ isPlayingPlayer === player1 ? currentScore : 0}}
-        .player-panel(:class="{ active: isPlayingPlayer === player2}")
-            .player-name Player 2
+        .player-panel(:class="getPlayerClass(1)")
+            .player-name {{ getPlayerName(1) }}
             .player-score {{ playerScores[1] }}
             .player-current-box
                 .player-current-label Current
@@ -31,6 +31,10 @@ export default {
             type: Number,
             default: 0,
         },
+        isWinner: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
@@ -39,7 +43,20 @@ export default {
         }
     },
     methods: {
-
+        getPlayerName(index) {
+            let playerName = 'Player ' + (index + 1);
+            if (this.isWinner && (index) === this.isPlayingPlayer) {
+                playerName = 'WINNER';
+            }
+            return playerName;
+        },
+        getPlayerClass(index) {
+            if (!this.isWinner) {
+                return {active: this.isPlayingPlayer === index}
+            } else {
+                return {winner: this.isPlayingPlayer === index}
+            }
+        },
     },
 }
 </script>
@@ -106,6 +123,6 @@ export default {
         font-size: 30px;
     }
 
-    .winner { background-color: #f7f7f7; }
+    .winner { background-color: lightblue; }
     .winner .player-name { font-weight: 300; color: #42b983; }
 </style>

@@ -1,7 +1,10 @@
 <template lang="pug">
     #app
         .wrapper.clearfix
-            players(:playerScores="playerScores" :currentScore="currentScore" :isPlayingPlayer="isPlayingPlayer")
+            players(:playerScores="playerScores"
+                :currentScore="currentScore"
+                :isPlayingPlayer="isPlayingPlayer"
+                :isWinner="isWinner")
             controls(@newGame="handleNewGame"
                 @rollDices="handleRollDices"
                 @holdScore="handleHoldScore"
@@ -35,7 +38,16 @@ export default {
             currentScore: 0,
             isOpenPopup: false,
             diceFaces: [1,1],
-            finalScore: 100,
+            finalScore: 12,
+        }
+    },
+    computed: {
+        isWinner() {
+            let {playerScores, finalScore} = this;
+            if (playerScores[PLAYER.player1] >= finalScore || playerScores[PLAYER.player2] >= finalScore) {
+                return true;
+            }
+            return false;
         }
     },
     methods: {
@@ -80,14 +92,21 @@ export default {
 
         },
         handleHoldScore() {
+            //Check if user already press "New Game" button
             if (this.isPlaying) {
+                // Check if user already rolled dices
                 if (this.currentScore >= 2) {
                     let {playerScores, isPlayingPlayer, currentScore} = this;
 
                     let clonePlayerScores = [...playerScores];
                     clonePlayerScores[isPlayingPlayer] = clonePlayerScores[isPlayingPlayer] + currentScore;
                     this.playerScores = [...clonePlayerScores];
-                    this.changeTurn();
+                    // Check if current user is winner
+                    if (this.isWinner) {
+                        this.isPlaying = false;
+                    } else {
+                        this.changeTurn();
+                    }
                 } else {
                     alert('Please roll dice at least 1 time');
                 }
